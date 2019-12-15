@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource
 from nest import read_input, parse_json
@@ -17,6 +17,11 @@ def verify(username, password):
         return False
     return CREDENTIALS.get(username) == password
 
+@auth.error_handler
+def unauthorized():
+    response = jsonify({'error': 'unauthorized', 'message': 'Please authenticate to access this API.'})
+    response.status_code = 401
+    return response
 
 class Nest(Resource):
 
@@ -25,19 +30,30 @@ class Nest(Resource):
 
         # get json from request body
         json_data = request.get_json(force=True)
-        if not json_data:
-               return {'message': 'Provide an input data'}, 400
 
         # get nlevels from request params json
         request_params = request.args.get('nlevels')
         if not request_params:
-               return {'message': 'Please provide nlevels as parameters'}, 400
+            response = jsonify({
+                    'message': "Please provide nlevels as parameters"
+                })
+            response.status_code = 400
+            return response
 
         # convert the params tgo list
         nlevels = [i for i in request_params.split(',')]
         res = parse_json(json_data, nlevels)
 
         if res:
-            return res, 201
+            response = jsonify({
+                'data': res
+            })
+            response.status_code = 201
+            return response
         else:
-            return {"message": 'nlevels must be one of the keys in the json array'}, 400
+            response = jsonify({
+                'message': 'nlevels must be one of the keys in the json array'
+            })
+            response.status_code = 400
+            return response
+
