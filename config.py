@@ -1,13 +1,3 @@
-# import os
-
-# # You need to replace the next values with the appropriate values for your configuration
-
-# basedir = os.path.abspath(os.path.dirname(__file__))
-# SQLALCHEMY_ECHO = False
-# SQLALCHEMY_TRACK_MODIFICATIONS = True
-# SQLALCHEMY_DATABASE_URI = "sqlite:///app.db"
-
-
 import os
 
 
@@ -16,7 +6,7 @@ class Config(object):
     DEBUG = False
     CSRF_ENABLED = True
     SECRET = os.getenv('SECRET')
-    SQLALCHEMY_DATABASE_URI ="sqlite:///app.db" # os.getenv('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI ="sqlite:///app.db"
 
 
 class DevelopmentConfig(Config):
@@ -25,7 +15,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    """Configurations for Testing, with a separate test database."""
+    """Configurations for Testing"""
     TESTING = True
     DEBUG = True
 

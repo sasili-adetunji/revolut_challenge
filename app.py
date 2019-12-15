@@ -1,3 +1,4 @@
+import os
 from flask import Flask, Blueprint
 from flask_restful import Api
 from resources.nest import Nest
@@ -21,5 +22,6 @@ def create_app(config_filename):
 
 
 if __name__ == "__main__":
-    app = create_app("development")
+    environment = os.getenv('FLASK_ENV') or 'development'
+    app = create_app(environment)
     app.run(debug=True)

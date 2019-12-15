@@ -3,14 +3,14 @@ FROM (
   SELECT t.user_id, t.amount*er.rate AS gbp_amount
   FROM transactions AS t, (
     WITH with_pos AS (
-      SELECT *, ROW_NUMBER() OVER(PARTITION BY from_currency ORDER BY ts DESC) AS n
-      FROM exchange_rates WHERE to_currency = 'GBP'
+      SELECT *, ex_rate.ts as ets, trans.ts as tts, ROW_NUMBER() OVER(PARTITION BY from_currency ORDER BY ex_rate.ts <= trans.ts DESC) AS n
+      FROM exchange_rates ex_rate, transactions trans WHERE to_currency = 'GBP'
     )
-    SELECT from_currency, rate, ts
+    SELECT from_currency, rate
     FROM with_pos
     WHERE n = 1
   ) AS er
-  WHERE t.currency = er.from_currency AND er.ts <= t.ts
+  WHERE t.currency = er.from_currency
 
   UNION ALL
 

@@ -3,8 +3,9 @@
 ## Prgramming
 
 ### Setup
-- Create a virtualenv with python 3.7
+- Create and activate a virtualenv with `python 3.7`
 - Intsall the dependecies by running `pip install -r requirements.txt`
+- Run `export FLASK_ENV=development`
 
 ### CLI App
 
@@ -21,3 +22,4 @@ where nesting_level indicates keys in the array json dictionaries
 Run `cat input.json | python test.py`
 
 ## SQL
+The sql query for the first task is in `first.sql` while the second one is in   `second.sql`
