@@ -1,4 +1,4 @@
-SELECT ft.user_id, SUM(ft.gbp_amount) as total_spent_gbp
+SELECT user_transact.user_id, SUM(user_transact.gbp_amount) AS total_spent_gbp
 FROM (
   SELECT t.user_id, t.amount*er.rate AS gbp_amount
   FROM transactions AS t, (
@@ -10,16 +10,11 @@ FROM (
     FROM with_pos
     WHERE n = 1
   ) AS er
-  WHERE t.currency = er.from_currency and er.ts <= t.ts
+  WHERE t.currency = er.from_currency
 
   UNION ALL
 
   SELECT user_id, amount AS gbp_amount
   FROM transactions
-  WHERE currency = 'GBP') as ft
-GROUP BY ft.user_id ORDER BY ft.user_id;
-
-
-
-
-
+  WHERE currency = 'GBP') AS user_transact
+GROUP BY user_transact.user_id ORDER BY user_transact.user_id;
