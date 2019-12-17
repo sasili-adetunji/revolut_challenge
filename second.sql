@@ -4,7 +4,7 @@ FROM (
   FROM transactions AS t, (
     WITH with_pos AS (
       SELECT *, ex_rate.ts as ets, trans.ts as tts, ROW_NUMBER() OVER(PARTITION BY from_currency ORDER BY ex_rate.ts <= trans.ts DESC) AS n
-      FROM exchange_rates ex_rate, transactions trans WHERE to_currency = 'GBP'
+      FROM exchange_rates ex_rate INNER JOIN transactions trans ON to_currency = 'GBP'
     )
     SELECT from_currency, rate
     FROM with_pos

@@ -19,7 +19,7 @@ where nesting_level indicates keys in the array json dictionaries
 - Add basic authorization using `testUser` as username and `SuperSecretP@ssw0rd!` as password
 
 ### Run Test
-Run `cat input.json | python test.py`
+Run `python test.py`
 
 ## SQL
 The sql query for the first task is in `first.sql` while the second one is in   `second.sql`

@@ -10,6 +10,11 @@ def missing_levels(nesting_levels, sample_data):
 def parse_json(input_data, nesting_levels):
     ''' Returns a list of dicts not in nesting levels '''
 
+    if len(input_data) < 1:
+        sys.stderr.write("The input json is empty")
+        sys.stdout.write("\n")
+        return False
+
     nlevels = [i.lower() for i in nesting_levels]   # convert nesting levels to lowercase
 
     dict_keys = [i.lower() for i in input_data[0]]  # convert input json keys to lowercase
@@ -37,13 +42,8 @@ def parse_json(input_data, nesting_levels):
                     temp[data[level]] = missing_levels(nlevels, data)
             temp = output
 
-        sys.stdout.write(json.dumps(output))
-        sys.stdout.write("\n")
+        write_output(result, output)
         return output
-    else:
-        sys.stderr.write("nlevels must be one of the keys in the json array")
-        sys.stdout.write("\n")
-        return False
 
 def read_input():
     ''' Read input from stdin '''
@@ -55,6 +55,15 @@ def read_input():
     # return a json array
     return json.loads(input_text)
 
+def write_output(result, output):
+    if result:
+        sys.stdout.write(json.dumps(output))
+        sys.stdout.write("\n")
+        # return output
+    else:
+        sys.stderr.write("nlevels must be one of the keys in the json array")
+        sys.stdout.write("\n")
+        return False
 
 if __name__ == '__main__':
 

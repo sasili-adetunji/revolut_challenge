@@ -42,7 +42,7 @@ class Nest(Resource):
             response.status_code = 400
             return response
 
-        # convert the params tgo list
+        # convert the params to list
         nlevels = [i for i in request_params.split(',')]
         res = parse_json(json_data, nlevels)
 
